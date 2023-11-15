@@ -97,6 +97,7 @@ class MortgageCalculator:
         numerator: float = np.multiply(principal, np.multiply(monthly_interest_rate, np.power(1 + monthly_interest_rate, total_payments)))
         denominator: float = np.power(1 + monthly_interest_rate, total_payments) - 1
         monthly_payment_value: float = np.multiply(numerator / denominator, 1.088) if with_insurance else numerator / denominator
+        print(f"The monthly payment would be {monthly_payment_value:,.0f} CZK/month.")
         insurance_payment_value: float = np.multiply(numerator / denominator, 0.088) if with_insurance else 0
 
         remaining_balance = principal
@@ -216,12 +217,12 @@ if __name__ == "__main__":
     # Prompted input.
     name: str = input("Name: ")
     age: int = int(input("Age: "))
-    gross_salary: float = float(input("Gross salary (Annual): "))
+    gross_salary: float = float(input("Gross salary (Monthly): "))
     bonuses: float = float(input("Annual bonus (0.1 == 10%): "))
     savings: float = float(input("Savings: "))
 
     # House related.
-    property_price: float(input("Property price: "))
+    property_price: float = float(input("Property price: "))
 
     fp: FinancialPerson = FinancialPerson(name, age, gross_salary, bonuses, savings)
 
