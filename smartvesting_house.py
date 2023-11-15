@@ -26,6 +26,10 @@ class Smartvestor:
             finance_enums.BudgetCategories.SAVINGS_AND_INVESTMENTS.value: 0.3 if self._financial_person.gross_salary <= 110_000 else 0.35,
             finance_enums.BudgetCategories.LEISUER.value: 0.2,
         }
+        assert sum(self.__budgeting.values()) == 1.0, (
+            "Budgeting values don't add up to 1.0 (100%).\n"
+            + f"Budgeting values detected {self.__budgeting.values()} make sure they add up to 1.0 (100%)."
+        )
 
         # Preprocessing
         self._monthly_budget: dict[str, float] = self.define_budget()
@@ -46,10 +50,6 @@ class Smartvestor:
             finance_enums.BudgetCategories.SAVINGS_AND_INVESTMENTS.value: salary_slice(category=finance_enums.BudgetCategories.SAVINGS_AND_INVESTMENTS.value),
             finance_enums.BudgetCategories.LEISUER.value: salary_slice(category=finance_enums.BudgetCategories.LEISUER.value),
         }
-        assert sum(budget.values()) == round(self._financial_person.net_monthly_income), (
-            "Budgeting values don't add up to the net monthly income.\n"
-            + f"Budgeting values detected {self.__budgeting.values()} make sure they add up to 1."
-        )
         return budget
 
     def is_financially_stable(self) -> bool:
@@ -189,13 +189,13 @@ if __name__ == "__main__":
     # Financial Person.
     name: str = input("Name: ")
     age: int = int(input("Age: "))
-    gross_salary: float = float(input("Gross salary (Annual): "))
+    gross_salary: float = float(input("Gross salary (Monthly): "))
     bonuses: float = float(input("Annual bonus (0.1 == 10%): "))
     savings: float = float(input("Savings: "))
 
     # House related.
     rent: float = float(input("Monthly rent: "))
-    property_price: float(input("Property price: "))
+    property_price: float = float(input("Property price: "))
 
     fp: FinancialPerson = FinancialPerson(name, age, gross_salary, bonuses, savings)
     smartvestor = Smartvestor(financial_person=fp)
