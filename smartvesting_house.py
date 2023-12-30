@@ -69,7 +69,7 @@ class Smartvestor:
                   "divide between saving and investing to prepare for your home purchase.")
             return True
 
-    def mortgage_preparation(self, property_price: float, down_payment_percentage: float) -> int:
+    def mortgage_preparation(self, property_price: float, down_payment_percentage: float) -> float:
         """Calculates how many months to have the down payment in case
 
         :param property_price: The price of the property.
@@ -83,7 +83,7 @@ class Smartvestor:
         )
         months_to_save: int = 0
 
-        while (amount_saved < down_payment):
+        while amount_saved < down_payment:
             amount_saved += monthly_saving
             months_to_save += 1
         
@@ -114,7 +114,7 @@ class Smartvestor:
             monthly_saving += monthly_post_housing
         months_to_save: int = 0
 
-        while (amount_saved < property_price):
+        while amount_saved < property_price:
             amount_saved += monthly_saving
             months_to_save += 1
         
@@ -140,11 +140,11 @@ class Smartvestor:
                 )
             )
             mortgage_calc = mortgage_calculator.MortgageCalculator()
-            mortgage_df, _ = mortgage_calc.mortgage_breakdown(
+            mortgage_df = mortgage_calc.mortgage_breakdown(
                 property_price,
-                down_payment_percentage=0.2,
-                max_interest_rate=mortgage_calculator.MAXIMUM_INTEREST_RATE,
-                loan_term=15,
+                down_payment_percentage=20,
+                interest_rate=mortgage_calculator.CURRENT_INTEREST_RATE,
+                loan_term=30,
                 with_insurance=False
             )
             total_cost = round(
@@ -179,9 +179,6 @@ class Smartvestor:
         print(f"It would take approx. {years_to_save:,.0f} years to save and a total cost of approx. {total_cost:,.0f} " 
               f"CZK To get your own house using the {strategy.value} strategy")
         return
-
-
-
 
 
 if __name__ == "__main__":
